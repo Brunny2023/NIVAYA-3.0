@@ -1,9 +1,9 @@
 import time
 import uuid
 
-class LovableExecutionLayer:
+class NivayaAgent:
     """
-    Simulates the 'Lovable' execution layer for Nivaya 3.0.
+    Simulates the 'Nivaya' agent execution layer for Nivaya 3.0.
     Adheres to the Nivaya Tool Interface Standard (NTIS) for responses.
     """
     def __init__(self, tool_registry):

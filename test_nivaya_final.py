@@ -4,7 +4,7 @@ from modules.planning import NivayaPlanner
 from modules.orchestration import NivayaOrchestrator
 from modules.simulation import NivayaSimulator
 from modules.reasoning import NivayaReasoningEngine
-from modules.lovable import LovableExecutionLayer
+from modules.nivaya_agent import NivayaAgent
 from modules.registry import ToolRegistry
 
 def test_execution_oriented_nivaya():
@@ -18,8 +18,8 @@ def test_execution_oriented_nivaya():
     planner = NivayaPlanner(registry)
     simulator = NivayaSimulator(registry)
     reasoning = NivayaReasoningEngine()
-    lovable = LovableExecutionLayer(registry)
-    orchestrator = NivayaOrchestrator(planner, simulator, lovable, reasoning)
+    nivaya_agent = NivayaAgent(registry)
+    orchestrator = NivayaOrchestrator(planner, simulator, nivaya_agent, reasoning)
     
     # 3. Test Phase Awareness
     print("\n[Test] Phase Awareness: Attempting to use Phase 2 tool in Phase 1...")

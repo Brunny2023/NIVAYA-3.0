@@ -7,7 +7,7 @@ from modules.planning import NivayaPlanner
 from modules.orchestration import NivayaOrchestrator
 from modules.simulation import NivayaSimulator
 from modules.reasoning import NivayaReasoningEngine
-from modules.lovable import LovableExecutionLayer
+from modules.nivaya_agent import NivayaAgent
 from modules.registry import ToolRegistry
 
 class NivayaWorker:
@@ -23,8 +23,8 @@ class NivayaWorker:
         self.planner = NivayaPlanner(self.registry)
         self.simulator = NivayaSimulator(self.registry)
         self.reasoning = NivayaReasoningEngine()
-        self.lovable = LovableExecutionLayer(self.registry)
-        self.orchestrator = NivayaOrchestrator(self.planner, self.simulator, self.lovable, self.reasoning)
+        self.nivaya_agent = NivayaAgent(self.registry)
+        self.orchestrator = NivayaOrchestrator(self.planner, self.simulator, self.nivaya_agent, self.reasoning)
         
         self.queue = NivayaQueue()
         print("[Worker] Nivaya Core Loaded. Waiting for tasks...")

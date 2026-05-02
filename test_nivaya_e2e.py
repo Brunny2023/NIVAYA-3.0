@@ -6,7 +6,7 @@ from modules.planning import NivayaPlanner
 from modules.orchestration import NivayaOrchestrator
 from modules.simulation import NivayaSimulator
 from modules.reasoning import NivayaReasoningEngine
-from modules.lovable import LovableExecutionLayer
+from modules.nivaya_agent import NivayaAgent
 from modules.registry import ToolRegistry
 
 class NivayaE2ETester:
@@ -16,8 +16,8 @@ class NivayaE2ETester:
         self.planner = NivayaPlanner(self.registry)
         self.simulator = NivayaSimulator(self.registry)
         self.reasoning = NivayaReasoningEngine()
-        self.lovable = LovableExecutionLayer(self.registry)
-        self.orchestrator = NivayaOrchestrator(self.planner, self.simulator, self.lovable, self.reasoning)
+        self.nivaya_agent = NivayaAgent(self.registry)
+        self.orchestrator = NivayaOrchestrator(self.planner, self.simulator, self.nivaya_agent, self.reasoning)
         self.model = Nivaya3Model(vocab_size=1000, embed_dim=128, num_layers=2, num_heads=4)
 
     def test_neural_head(self):
@@ -76,15 +76,15 @@ class NivayaE2ETester:
         try:
             # We need to simulate a failure to test adaptation
             # Let's mock the execution layer to fail on a specific tool
-            class FailingLovable(LovableExecutionLayer):
+            class FailingNivayaAgent(NivayaAgent):
                 def execute(self, tool_call):
                     if tool_call["tool"] == "web_tool":
                         return self._format_response(tool_call["task_id"], tool_call["step_id"], "failed", 
                                                    error={"code": "TIMEOUT", "message": "Connection timed out"})
                     return super().execute(tool_call)
 
-            failing_lovable = FailingLovable(self.registry)
-            failing_orchestrator = NivayaOrchestrator(self.planner, self.simulator, failing_lovable, self.reasoning)
+            failing_agent = FailingNivayaAgent(self.registry)
+            failing_orchestrator = NivayaOrchestrator(self.planner, self.simulator, failing_agent, self.reasoning)
             
             print(">> Attempting execution with simulated failure...")
             results = failing_orchestrator.run_autonomous("Test adaptation")

@@ -3,7 +3,7 @@ import json
 class NivayaOrchestrator:
     """
     State-Aware Orchestrator with Feedback-Driven Adaptation.
-    Controls the Lovable execution layer.
+    Controls the Nivaya agent execution layer.
     """
     def __init__(self, planner, simulator, execution_layer, reasoning_engine):
         self.planner = planner
